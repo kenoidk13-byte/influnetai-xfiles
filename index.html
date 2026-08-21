@@ -316,6 +316,55 @@ nav.main-nav a:hover{animation:navJit .22s steps(2) 2}
 .ticker i{font-style:normal;color:var(--ink)}
 @keyframes tick{to{transform:translateX(-50%)}}
 
+/* ============ AGENTS ============ */
+#agents{background:#0a0a0a}
+.agents-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:56px}
+.agent-card{
+  border:1px solid var(--line);padding:28px;background:#0d0d0d;position:relative;
+  display:grid;grid-template-columns:200px 1fr;gap:26px;transition:border-color .3s;
+}
+.agent-card:hover{border-color:#666}
+.agent-photo{position:relative;border:1px solid #3a3a3a;padding:8px;background:#111;align-self:start}
+.agent-photo img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(1) contrast(1.18) brightness(.92);display:block}
+.agent-photo::after{
+  content:"";position:absolute;inset:8px;pointer-events:none;
+  background:radial-gradient(circle,rgba(0,0,0,.38) 1px,transparent 1.4px);
+  background-size:3px 3px;mix-blend-mode:multiply;
+}
+.agent-photo::before{
+  content:"";position:absolute;inset:8px;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.22) 3px 4px);
+}
+.agent-photo .ph-label{
+  position:absolute;left:8px;right:8px;bottom:8px;z-index:3;
+  display:flex;justify-content:space-between;
+  font-size:9px;letter-spacing:2px;color:#ddd;text-transform:uppercase;
+  background:rgba(0,0,0,.55);padding:5px 8px;
+}
+.agent-info{display:flex;flex-direction:column}
+.agent-info h3{font-family:'Special Elite',monospace;font-size:clamp(20px,2vw,27px);text-transform:uppercase;letter-spacing:1px;line-height:1.15}
+.agent-info .alias{font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin:6px 0 16px}
+.agent-info p{font-size:13px;color:var(--dim);margin-bottom:14px}
+.agent-data{border-top:1px dashed #333;margin-top:auto}
+.agent-data div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #333;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.agent-data b{color:var(--ink)}
+.agent-quote{margin-top:14px;font-family:'Special Elite',monospace;font-size:13px;color:#cfcfcf}
+.agent-card .stamp.mini{position:absolute;top:-14px;right:18px;font-size:10px;padding:5px 12px;background:#0a0a0a;z-index:3}
+@media(max-width:900px){.agents-grid{grid-template-columns:1fr}.agent-card{grid-template-columns:150px 1fr}}
+@media(max-width:600px){.agent-card{grid-template-columns:1fr}}
+
+.advisor{
+  margin-top:34px;border:1px dashed #3a3a3a;padding:22px 28px;background:#080808;
+  display:flex;align-items:center;gap:26px;
+}
+.advisor svg{flex:none;height:78px;width:auto;opacity:.9}
+.advisor h4{font-family:'Special Elite',monospace;font-size:17px;letter-spacing:2px;text-transform:uppercase}
+.advisor p{font-size:12px;color:var(--dim);margin-top:6px;max-width:720px}
+.smoke{animation:smokeDrift 4s ease-in-out infinite}
+@keyframes smokeDrift{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:.75;transform:translateY(-6px)}}
+.ember{animation:blink 1.4s steps(1) infinite}
+@media(max-width:700px){.advisor{flex-direction:column;text-align:center}}
+
 /* ============ PAPER SECTIONS ============ */
 .paper{background:var(--paper);color:var(--paper-ink)}
 .paper .corner{color:var(--paper-ink)}
@@ -614,6 +663,7 @@ footer{border-top:1px solid var(--line);background:#050505}
     </div>
   </div>
   <nav class="main-nav">
+    <a href="#agents">Agents</a>
     <a href="#about">Phenomenon</a>
     <a href="#how">Protocol</a>
     <a href="#who">Persons</a>
@@ -629,6 +679,7 @@ footer{border-top:1px solid var(--line);background:#050505}
 
 <div class="mobile-menu" id="mobileMenu">
   <button class="close-m" id="closeMenu">CLOSE ✕</button>
+  <a href="#agents">AGENTS</a>
   <a href="#about">PHENOMENON</a>
   <a href="#how">PROTOCOL</a>
   <a href="#who">PERSONS</a>
@@ -651,7 +702,7 @@ footer{border-top:1px solid var(--line);background:#050505}
     <div>
       <div class="file-head reveal">
         <span>CASE FILE <b>X-091093</b></span>
-        <span>DIVISION: <b>CRYPTO PHENOMENA</b></span>
+        <span>DIVISION: <b>THE X-FILES</b></span>
         <span>STATUS: <b>UNRESOLVED</b></span>
       </div>
       <h1 class="hero-title reveal">
@@ -718,6 +769,66 @@ footer{border-top:1px solid var(--line);background:#050505}
     <span>Resistance is futile, engagement is mandatory <i>//</i></span>
   </div>
 </div>
+
+<!-- ================= AGENTS ================= -->
+<section id="agents">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <span class="eyebrow reveal">File 00 — Personnel Assignment</span>
+    <h2 class="sec-title reveal">The Agents</h2>
+    <p class="sec-sub reveal">Two federal agents assigned to the InflunetAI case. One believes. One verifies. Both are already inside the DAO.</p>
+    <div class="agents-grid">
+      <div class="agent-card reveal">
+        <span class="stamp mini">Assigned</span>
+        <div class="agent-photo">
+          <img src="img/mulder.jpg" alt="Special Agent Fox Mulder — surveillance photograph">
+          <div class="ph-label"><span>SURV. 09A</span><span>CAM 04</span></div>
+        </div>
+        <div class="agent-info">
+          <h3>Fox William Mulder</h3>
+          <div class="alias">AKA "The Believer"</div>
+          <p>Founded the InflunetAI investigation after witnessing an unidentified swarm promote his first token overnight — from zero to trending without a single paid ad. Has not slept since. Claims the truth is out there, and it has a referral link.</p>
+          <div class="agent-data">
+            <div><span>DIVISION</span><b>THE X-FILES</b></div>
+            <div><span>CLEARANCE</span><b>UNLIMITED</b></div>
+            <div><span>HOLDINGS</span><b>[REDACTED]</b></div>
+          </div>
+          <div class="agent-quote">"I want to believe. And now I have 2,300 reasons."</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <span class="stamp mini">Assigned</span>
+        <div class="agent-photo">
+          <img src="img/scully.jpg" alt="Special Agent Dana Scully — surveillance photograph">
+          <div class="ph-label"><span>SURV. 09B</span><span>CAM 07</span></div>
+        </div>
+        <div class="agent-info">
+          <h3>Dana Katherine Scully</h3>
+          <div class="alias">AKA "The Skeptic"</div>
+          <p>Medical doctor and federal auditor, assigned to debunk the phenomenon. Instead audited the DAO smart contract — and could not explain the numbers. Keeps a file of every campaign metric. All of them check out. This bothers her deeply.</p>
+          <div class="agent-data">
+            <div><span>DIVISION</span><b>AUDIT &amp; SCIENCE</b></div>
+            <div><span>CLEARANCE</span><b>UNLIMITED</b></div>
+            <div><span>EXPLANATION</span><b>PENDING</b></div>
+          </div>
+          <div class="agent-quote">"The metrics are real, Mulder. That's what scares me."</div>
+        </div>
+      </div>
+    </div>
+    <div class="advisor reveal">
+      <svg viewBox="0 0 140 110" fill="none" stroke="#666" stroke-width="1.2">
+        <path d="M70 14 c-11 0 -17 8 -17 17 c0 8 5 15 12 17 l0 6 c-16 3 -26 14 -28 42 l66 0 c-2 -28 -12 -39 -28 -42 l0 -6 c7 -2 12 -9 12 -17 c0 -9 -6 -17 -17 -17 z" fill="#161616"/>
+        <rect x="88" y="52" width="16" height="3" fill="#ddd" stroke="none" transform="rotate(-12 88 52)"/>
+        <circle cx="105" cy="49" r="1.8" fill="#fff" stroke="none" class="ember"/>
+        <path d="M106 47 q6 -8 2 -14 q-4 -6 2 -12" stroke="#888" class="smoke"/>
+      </svg>
+      <div class="adv-text">
+        <h4>Field Advisor — Identity [Redacted]</h4>
+        <p>Unofficial consultant. Appears at every board meeting. Nobody remembers inviting him. Always knows which token will trend next. Do not accept his investment advice. Or maybe do. The DAO has no comment.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ================= ABOUT / PHENOMENON ================= -->
 <section id="about" class="paper">
@@ -1094,6 +1205,7 @@ footer{border-top:1px solid var(--line);background:#050505}
     </div>
     <div class="foot-col">
       <h4>Case Files</h4>
+      <a href="#agents">The Agents</a>
       <a href="#about">The Phenomenon</a>
       <a href="#how">Protocol</a>
       <a href="#who">Persons of Interest</a>
@@ -1110,6 +1222,7 @@ footer{border-top:1px solid var(--line);background:#050505}
   <div class="foot-bottom">
     <span>© 2025 InflunetAI — All rights reserved. All wrongs observed.</span>
     <span>FILE X-091093 — STATUS: STILL UNRESOLVED</span>
+    <span>AGENT PORTRAITS: WIKIMEDIA COMMONS, CC — FAN EXPO DENVER 2026</span>
     <span>MADE SOMEWHERE IN THE TWILIGHT ZONE</span>
   </div>
 </footer>
