@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFLUNETAI // FILE X-091093 — CLASSIFIED</title>
+<meta name="description" content="InflunetAI — AI-influencers powered by DAO. Declassified case file. The truth is out there. And it's posting.">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="black"/><path d="M14 14 L50 50 M50 14 L14 50" stroke="white" stroke-width="7"/></svg>'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070707;
+  --ink:#ececec;
+  --dim:#9a9a9a;
+  --line:#2c2c2c;
+  --paper:#f4f3ef;
+  --paper-ink:#101010;
+  --paper-dim:#5a5a56;
+  --paper-line:#c9c7bf;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Courier Prime','Courier New',monospace;
+  overflow-x:hidden;
+  cursor:crosshair;
+  line-height:1.55;
+}
+::selection{background:#fff;color:#000}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer}
+
+.type-display{font-family:'Special Elite','Courier New',monospace}
+
+/* ============ OVERLAYS ============ */
+.noise{
+  position:fixed;inset:-50%;z-index:9990;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:noiseShift .45s steps(4) infinite;
+}
+@keyframes noiseShift{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(-2%,1%)}
+  50%{transform:translate(1%,-2%)}
+  75%{transform:translate(-1%,2%)}
+  100%{transform:translate(2%,1%)}
+}
+.scanlines{
+  position:fixed;inset:0;z-index:9991;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.16) 2px 4px);
+}
+.vignette{
+  position:fixed;inset:0;z-index:9989;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%);
+}
+.crt-flicker{position:fixed;inset:0;z-index:9992;pointer-events:none;background:#fff;opacity:0}
+body.flash .crt-flicker{animation:crtFlash .12s steps(2)}
+@keyframes crtFlash{0%{opacity:.06}50%{opacity:.02}100%{opacity:0}}
+
+.crosshair{
+  position:fixed;z-index:9995;width:34px;height:34px;pointer-events:none;
+  transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .15s,height .15s;
+}
+.crosshair::before,.crosshair::after{content:"";position:absolute;background:#fff}
+.crosshair::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-50%)}
+.crosshair::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-50%)}
+@media(hover:none){.crosshair{display:none}}
+
+/* ============ BOOT SCREEN ============ */
+#boot{
+  position:fixed;inset:0;z-index:10000;background:#000;color:#e8e8e8;
+  padding:6vh 6vw;font-size:clamp(11px,1.6vw,15px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  transition:opacity .6s ease,visibility .6s;
+}
+#boot.done{opacity:0;visibility:hidden}
+#boot .boot-lines{white-space:pre-wrap;line-height:1.9;text-transform:uppercase}
+#boot .cursor{display:inline-block;width:.6em;height:1.1em;background:#e8e8e8;vertical-align:-.15em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ============ HEADER ============ */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:9000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+  background:linear-gradient(to bottom,rgba(5,5,5,.92),rgba(5,5,5,.78));
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(4px);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .bx{
+  width:30px;height:30px;border:1px solid var(--ink);position:relative;flex:none;
+}
+.brand .bx::before,.brand .bx::after{content:"";position:absolute;left:50%;top:50%;width:130%;height:1px;background:var(--ink)}
+.brand .bx::before{transform:translate(-50%,-50%) rotate(45deg)}
+.brand .bx::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.brand b{font-family:'Special Elite',monospace;font-size:17px;letter-spacing:2px}
+.brand small{font-size:9px;letter-spacing:2px;color:var(--dim);display:block;margin-top:1px}
+nav.main-nav{display:flex;gap:26px;align-items:center}
+nav.main-nav a{
+  font-size:11px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;
+  position:relative;padding:4px 0;transition:color .2s;
+}
+nav.main-nav a:hover{color:var(--ink)}
+nav.main-nav a::before{content:"[ "}
+nav.main-nav a::after{content:" ]"}
+.head-right{display:flex;align-items:center;gap:18px}
+.rec{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:1px;color:var(--dim)}
+.rec .dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:blink 1.2s steps(1) infinite}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);padding:8px 10px;font-size:12px;letter-spacing:2px}
+.mobile-menu{
+  position:fixed;inset:0;z-index:9500;background:rgba(3,3,3,.97);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:26px;
+  opacity:0;visibility:hidden;transition:.3s;
+}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-menu a{font-family:'Special Elite',monospace;font-size:26px;letter-spacing:3px}
+.mobile-menu .close-m{position:absolute;top:20px;right:24px;background:none;border:1px solid var(--line);color:var(--ink);padding:8px 14px;letter-spacing:2px;font-size:12px}
+@media(max-width:1080px){
+  nav.main-nav{display:none}
+  .burger{display:block}
+  .rec{display:none}
+}
+
+/* ============ COMMON SECTION ============ */
+section{position:relative}
+.wrap{max-width:1240px;margin:0 auto;padding:110px 28px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);
+  border:1px solid var(--line);padding:7px 14px;margin-bottom:26px;
+}
+.paper .eyebrow{border-color:var(--paper-line);color:var(--paper-dim)}
+h2.sec-title{
+  font-family:'Special Elite',monospace;
+  font-size:clamp(34px,5.4vw,72px);
+  line-height:1.02;letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.sec-sub{max-width:640px;color:var(--dim);font-size:15px}
+.paper .sec-sub{color:var(--paper-dim)}
+.corner{position:absolute;width:18px;height:18px;pointer-events:none;opacity:.5}
+.corner.tl{top:18px;left:18px;border-top:1px solid currentColor;border-left:1px solid currentColor}
+.corner.tr{top:18px;right:18px;border-top:1px solid currentColor;border-right:1px solid currentColor}
+.corner.bl{bottom:18px;left:18px;border-bottom:1px solid currentColor;border-left:1px solid currentColor}
+.corner.br{bottom:18px;right:18px;border-bottom:1px solid currentColor;border-right:1px solid currentColor}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:none}
+
+.stamp{
+  display:inline-block;font-family:'Special Elite',monospace;
+  border:3px double currentColor;padding:8px 18px;
+  letter-spacing:4px;text-transform:uppercase;
+  transform:rotate(-8deg);opacity:.85;user-select:none;
+}
+
+.btn{
+  display:inline-flex;align-items:center;gap:14px;
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  font-size:13px;letter-spacing:3px;text-transform:uppercase;
+  padding:16px 28px;position:relative;overflow:hidden;transition:color .25s;
+}
+.btn::before{
+  content:"";position:absolute;inset:0;background:var(--ink);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s ease;z-index:-1;
+}
+.btn:hover{color:#000}
+.btn:hover::before{transform:scaleX(1)}
+.btn .arr{transition:transform .25s}
+.btn:hover .arr{transform:translateX(6px)}
+.paper .btn{border-color:var(--paper-ink);color:var(--paper-ink)}
+.paper .btn:hover{color:var(--paper)}
+.paper .btn::before{background:var(--paper-ink)}
+
+/* ============ HERO ============ */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:150px 28px 80px;overflow:hidden;
+}
+.hero-grid{
+  max-width:1240px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1.35fr .65fr;gap:40px;align-items:end;
+}
+.file-head{
+  display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;
+  font-size:11px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;
+  border:1px solid var(--line);padding:10px 16px;margin-bottom:38px;width:max-content;max-width:100%;
+}
+.file-head b{color:var(--ink)}
+h1.hero-title{
+  font-family:'Special Elite',monospace;
+  font-size:clamp(52px,10.5vw,148px);
+  line-height:.95;letter-spacing:2px;text-transform:uppercase;
+  position:relative;width:max-content;max-width:100%;
+}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;left:0;top:0;width:100%;
+  opacity:0;pointer-events:none;
+}
+.glitch::before{animation:gA 3.7s infinite steps(1)}
+.glitch::after{animation:gB 2.9s infinite steps(1)}
+@keyframes gA{
+  0%,88%,100%{opacity:0;clip-path:inset(50% 0 50% 0)}
+  89%{opacity:.9;clip-path:inset(12% 0 66% 0);transform:translate(-6px,-2px)}
+  91%{opacity:.9;clip-path:inset(58% 0 8% 0);transform:translate(5px,2px)}
+  93%{opacity:0}
+}
+@keyframes gB{
+  0%,90%,100%{opacity:0;clip-path:inset(50% 0 50% 0)}
+  91%{opacity:.75;clip-path:inset(70% 0 4% 0);transform:translate(6px,1px)}
+  94%{opacity:.75;clip-path:inset(4% 0 78% 0);transform:translate(-5px,-1px)}
+  96%{opacity:0}
+}
+.hero-tagline{
+  margin-top:26px;font-size:clamp(13px,1.6vw,17px);letter-spacing:1px;
+  color:var(--ink);min-height:2.6em;
+}
+.hero-tagline .tw-cursor{display:inline-block;width:.55em;height:1.05em;background:currentColor;vertical-align:-.12em;animation:blink 1s steps(1) infinite}
+.hero-desc{margin-top:22px;max-width:560px;color:var(--dim);font-size:14px}
+.hero-cta{margin-top:44px;display:flex;flex-wrap:wrap;gap:18px}
+.hero-side{position:relative;height:420px}
+.ufo-wrap{position:relative;width:100%;height:100%}
+.ufo{animation:ufoFloat 5.5s ease-in-out infinite}
+@keyframes ufoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.beam{animation:beamFlicker 2.2s steps(3) infinite}
+@keyframes beamFlicker{0%,100%{opacity:.5}50%{opacity:.15}}
+.starfield text{font-family:'Courier Prime',monospace;fill:#777;font-size:9px;letter-spacing:1px}
+.hero-stamps{position:absolute;right:0;top:-30px;display:flex;flex-direction:column;gap:26px;align-items:flex-end}
+.stamp.s2{transform:rotate(6deg);font-size:13px}
+.stamp.s3{transform:rotate(-4deg);font-size:11px;opacity:.6}
+.scroll-hint{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-hint::after{content:"";width:1px;height:44px;background:linear-gradient(var(--dim),transparent);animation:drip 1.6s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.coords{
+  position:absolute;top:96px;right:28px;font-size:10px;letter-spacing:2px;color:var(--dim);
+  text-align:right;line-height:1.9;
+}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-side{height:300px;order:-1}
+  .hero-stamps{top:-10px}
+  .coords{display:none}
+}
+
+/* ============ TICKER ============ */
+.ticker{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;background:#0b0b0b;padding:13px 0;white-space:nowrap;
+}
+.ticker-track{display:inline-block;animation:tick 30s linear infinite}
+.ticker span{
+  font-family:'Special Elite',monospace;font-size:13px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--dim);margin-right:46px;
+}
+.ticker i{font-style:normal;color:var(--ink)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ============ PAPER SECTIONS ============ */
+.paper{background:var(--paper);color:var(--paper-ink)}
+.paper .corner{color:var(--paper-ink)}
+
+.doc-meta{
+  display:flex;flex-wrap:wrap;gap:8px 30px;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--paper-dim);
+  border-bottom:1px solid var(--paper-line);padding-bottom:14px;margin-bottom:44px;
+}
+.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.doc-text p{margin-bottom:18px;font-size:15px;max-width:520px}
+.redacted{
+  background:#141414;color:transparent;padding:0 6px;border-radius:1px;
+  transition:color .35s ease,background .35s ease;user-select:none;
+}
+.redacted:hover{color:var(--paper);background:#333}
+.crop-circle{position:relative}
+.crop-circle svg{width:100%;height:auto;opacity:.9}
+.cc-spin{animation:spin 60s linear infinite;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fig-cap{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--paper-dim);margin-top:12px;display:flex;justify-content:space-between}
+.belief-list{list-style:none;margin-top:30px;border-top:1px solid var(--paper-line)}
+.belief-list li{
+  display:flex;gap:14px;align-items:baseline;padding:13px 4px;
+  border-bottom:1px solid var(--paper-line);font-size:14px;
+}
+.belief-list li::before{content:"▸";flex:none}
+.about-stamp{position:absolute;right:36px;top:120px;transform:rotate(9deg);font-size:15px;color:var(--paper-ink)}
+@media(max-width:900px){
+  .doc-grid{grid-template-columns:1fr;gap:40px}
+  .about-stamp{position:static;display:inline-block;margin-top:20px}
+}
+
+/* ============ HOW IT WORKS ============ */
+.evidence-board{margin-top:54px;position:relative}
+.ev-line{position:absolute;left:0;right:0;top:118px;height:1px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 16px)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}
+.step{
+  border:1px solid var(--line);padding:26px 22px 30px;position:relative;
+  background:#0a0a0a;transition:transform .3s,border-color .3s;
+}
+.step:hover{transform:translateY(-8px);border-color:#5a5a5a}
+.step .tag{
+  font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;
+  display:flex;justify-content:space-between;margin-bottom:40px;
+}
+.step .num{
+  font-family:'Special Elite',monospace;font-size:52px;line-height:1;
+  color:transparent;-webkit-text-stroke:1px #6d6d6d;margin-bottom:22px;
+}
+.step h3{font-family:'Special Elite',monospace;font-size:19px;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.step p{font-size:13px;color:var(--dim)}
+.step .pin{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:14px;height:14px;border-radius:50%;background:#e8e8e8;
+  box-shadow:0 2px 6px rgba(255,255,255,.25);
+}
+.step .photo{
+  height:74px;margin-bottom:20px;border:1px dashed #3a3a3a;position:relative;overflow:hidden;
+  background:repeating-linear-gradient(45deg,#0d0d0d 0 10px,#0a0a0a 10px 20px);
+}
+.step .photo svg{position:absolute;inset:0;margin:auto;height:100%;width:auto;opacity:.65}
+@media(max-width:1000px){
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .ev-line{display:none}
+}
+@media(max-width:600px){.steps{grid-template-columns:1fr}}
+
+/* ============ WHO NEEDS ============ */
+.dossiers{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:56px}
+.dossier{
+  background:#fbfaf7;border:1px solid var(--paper-line);position:relative;
+  padding:30px 24px 26px;box-shadow:0 10px 26px rgba(0,0,0,.07);
+  transition:transform .3s;
+}
+.dossier:hover{transform:rotate(-1deg) translateY(-6px)}
+.tape{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-3deg);
+  width:110px;height:26px;background:rgba(180,180,170,.45);
+  border-left:1px dashed rgba(0,0,0,.15);border-right:1px dashed rgba(0,0,0,.15);
+}
+.dossier .d-num{font-size:10px;letter-spacing:3px;color:var(--paper-dim);text-transform:uppercase}
+.dossier .mugshot{
+  width:86px;height:104px;border:1px solid var(--paper-ink);margin:18px 0;
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+  background:
+    repeating-linear-gradient(to bottom,transparent 0 9px,rgba(0,0,0,.05) 9px 10px),
+    #efeee9;
+}
+.dossier .mugshot svg{width:60%;opacity:.85}
+.dossier .mugshot .qm{position:absolute;right:4px;bottom:2px;font-family:'Special Elite',monospace;font-size:26px}
+.dossier h3{font-family:'Special Elite',monospace;font-size:21px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.dossier .alias{font-size:11px;letter-spacing:2px;color:var(--paper-dim);text-transform:uppercase;margin-bottom:16px}
+.dossier p{font-size:13.5px;color:#333}
+.dossier .status{
+  margin-top:20px;padding-top:14px;border-top:1px dashed var(--paper-line);
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--paper-dim);
+  display:flex;justify-content:space-between;
+}
+.dossier .status b{color:var(--paper-ink)}
+@media(max-width:1000px){.dossiers{grid-template-columns:1fr;max-width:480px}}
+
+/* ============ WHY US ============ */
+.report-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:54px;border:1px solid var(--line)}
+.report-item{
+  padding:34px 30px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  display:flex;gap:22px;align-items:flex-start;transition:background .3s;
+}
+.report-item:nth-child(2n){border-right:none}
+.report-item:nth-child(n+3){border-bottom:none}
+.report-item:hover{background:#0d0d0d}
+.report-item .chk{
+  flex:none;width:30px;height:30px;border:1px solid var(--ink);position:relative;margin-top:3px;
+}
+.report-item .chk::after{
+  content:"";position:absolute;left:8px;top:6px;width:12px;height:7px;
+  border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  transform:rotate(-45deg);
+}
+.report-item h3{font-family:'Special Elite',monospace;font-size:19px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.report-item p{font-size:13px;color:var(--dim)}
+@media(max-width:800px){
+  .report-grid{grid-template-columns:1fr}
+  .report-item{border-right:none!important;border-bottom:1px solid var(--line)!important}
+  .report-item:last-child{border-bottom:none!important}
+}
+
+/* ============ STATS ============ */
+#stats{background:#040404}
+.monitor{
+  margin-top:54px;border:1px solid var(--line);background:#080808;position:relative;
+}
+.monitor-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--line);padding:12px 20px;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);
+}
+.monitor-bar .live{display:flex;align-items:center;gap:8px}
+.monitor-bar .live i{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1s steps(1) infinite}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-cell{
+  padding:48px 30px;border-right:1px solid var(--line);position:relative;
+}
+.stat-cell:last-child{border-right:none}
+.stat-cell .val{
+  font-family:'Special Elite',monospace;font-size:clamp(40px,4.6vw,62px);line-height:1;
+  letter-spacing:1px;
+}
+.stat-cell .lbl{margin-top:14px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);max-width:200px}
+.stat-cell .idx{position:absolute;top:14px;right:16px;font-size:10px;color:#3f3f3f;letter-spacing:2px}
+.stat-wave{border-top:1px solid var(--line);padding:10px 20px;display:flex;align-items:center;gap:16px;font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.wave{flex:1;height:34px}
+@media(max-width:900px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .stat-cell:nth-child(2n){border-right:none}
+  .stat-cell:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media(max-width:520px){
+  .stat-grid{grid-template-columns:1fr}
+  .stat-cell{border-right:none!important;border-bottom:1px solid var(--line)!important}
+  .stat-cell:last-child{border-bottom:none!important}
+}
+
+/* ============ WITNESSES ============ */
+.transcripts{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:56px}
+.transcript{
+  background:#fbfaf7;border:1px solid var(--paper-line);padding:26px 26px 22px;position:relative;
+  box-shadow:0 8px 22px rgba(0,0,0,.06);
+}
+.transcript:nth-child(even){transform:rotate(.6deg)}
+.transcript:nth-child(odd){transform:rotate(-.5deg)}
+.transcript .t-head{
+  display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--paper-dim);border-bottom:1px dashed var(--paper-line);
+  padding-bottom:10px;margin-bottom:16px;
+}
+.transcript blockquote{
+  font-size:15px;line-height:1.7;color:#161616;
+}
+.transcript blockquote::before{content:"“ ";font-family:'Special Elite',monospace;font-size:30px;line-height:0;vertical-align:-10px;margin-right:4px}
+.transcript .who{margin-top:18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;display:flex;justify-content:space-between;color:var(--paper-dim)}
+.transcript .who b{color:var(--paper-ink)}
+@media(max-width:900px){.transcripts{grid-template-columns:1fr}}
+
+/* ============ FAQ ============ */
+.faq-list{margin-top:50px;border-top:1px solid var(--line);max-width:860px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{
+  width:100%;background:none;border:none;color:var(--ink);
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:26px 6px;text-align:left;font-size:16px;letter-spacing:.5px;
+  font-family:'Courier Prime',monospace;
+}
+.faq-q .q-idx{color:var(--dim);font-size:12px;margin-right:16px}
+.faq-q .plus{
+  flex:none;width:26px;height:26px;border:1px solid var(--line);position:relative;transition:transform .3s;
+}
+.faq-q .plus::before,.faq-q .plus::after{content:"";position:absolute;background:var(--ink);left:50%;top:50%}
+.faq-q .plus::before{width:12px;height:1px;transform:translate(-50%,-50%)}
+.faq-q .plus::after{width:1px;height:12px;transform:translate(-50%,-50%)}
+.faq-item.open .plus{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-a p{padding:0 6px 28px;color:var(--dim);font-size:14px;max-width:700px}
+.faq-a .a-prefix{color:var(--ink)}
+
+/* ============ BELIEVE / CTA ============ */
+#believe .wrap{padding-bottom:140px}
+.believe-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center;margin-top:20px}
+.poster{
+  border:10px solid #101010;outline:1px solid var(--paper-line);
+  aspect-ratio:3/4.2;position:relative;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:26px;text-align:center;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(0,0,0,.05),transparent 60%),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.02) 0 2px,transparent 2px 4px),
+    #efede6;
+  box-shadow:0 24px 60px rgba(0,0,0,.25);
+  transform:rotate(-1.4deg);
+}
+.poster .p-ufo{width:120px;opacity:.85;animation:ufoFloat 6s ease-in-out infinite}
+.poster h3{
+  font-family:'Special Elite',monospace;font-size:clamp(26px,3vw,40px);
+  letter-spacing:4px;text-transform:uppercase;color:#151515;line-height:1.25;
+}
+.poster .p-foot{position:absolute;bottom:14px;font-size:9px;letter-spacing:3px;color:var(--paper-dim);text-transform:uppercase}
+.poster-pin{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;background:#111;box-shadow:0 3px 8px rgba(0,0,0,.4)}
+.cta-box h2{margin-bottom:16px}
+.cta-box p{color:var(--paper-dim);font-size:14.5px;max-width:480px;margin-bottom:34px}
+.form-card{border:1px solid var(--paper-ink);padding:30px 28px;position:relative;background:#fbfaf7}
+.form-card .fc-head{
+  display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--paper-dim);border-bottom:1px dashed var(--paper-line);
+  padding-bottom:12px;margin-bottom:24px;
+}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--paper-dim);margin-bottom:8px}
+.field input{
+  width:100%;background:transparent;border:none;border-bottom:1px solid var(--paper-ink);
+  padding:10px 2px;font-family:'Courier Prime',monospace;font-size:15px;color:var(--paper-ink);
+  outline:none;border-radius:0;
+}
+.field input::placeholder{color:#b3b1aa}
+.form-row{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:28px}
+.form-note{font-size:10px;letter-spacing:1.5px;color:var(--paper-dim);text-transform:uppercase}
+.sent-msg{display:none;text-align:center;padding:40px 10px}
+.sent-msg .big{font-family:'Special Elite',monospace;font-size:24px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.sent-msg p{color:var(--paper-dim);font-size:13px}
+.form-card.sent form{display:none}
+.form-card.sent .sent-msg{display:block}
+@media(max-width:960px){.believe-grid{grid-template-columns:1fr}.poster{max-width:380px}}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--line);background:#050505}
+.foot-inner{
+  max-width:1240px;margin:0 auto;padding:60px 28px 30px;
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:44px;
+}
+.foot-brand b{font-family:'Special Elite',monospace;font-size:22px;letter-spacing:3px}
+.foot-brand p{color:var(--dim);font-size:12px;margin-top:14px;max-width:320px}
+.foot-col h4{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
+.foot-col a{display:block;font-size:13px;color:#bdbdbd;margin-bottom:10px;transition:color .2s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{
+  max-width:1240px;margin:0 auto;padding:22px 28px 34px;
+  border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:12px 30px;justify-content:space-between;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#5c5c5c;
+}
+@media(max-width:800px){.foot-inner{grid-template-columns:1fr}}
+
+.declassify{
+  position:fixed;left:18px;bottom:18px;z-index:9200;
+  font-size:9px;letter-spacing:2px;color:#6a6a6a;text-transform:uppercase;
+  border:1px solid #222;padding:6px 10px;background:rgba(0,0,0,.6);
+}
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div class="crt-flicker"></div>
+<div class="crosshair" id="crosshair"></div>
+
+<div id="boot"><div class="boot-lines" id="bootLines"></div></div>
+
+<header>
+  <div class="brand">
+    <div class="bx"></div>
+    <div>
+      <b>INFLUNETAI</b>
+      <small>FEDERAL BUREAU OF INFLUENCE</small>
+    </div>
+  </div>
+  <nav class="main-nav">
+    <a href="#about">Phenomenon</a>
+    <a href="#how">Protocol</a>
+    <a href="#who">Persons</a>
+    <a href="#stats">Data</a>
+    <a href="#witnesses">Witnesses</a>
+    <a href="#faq">Interrogation</a>
+  </nav>
+  <div class="head-right">
+    <div class="rec"><span class="dot"></span><span id="clock">00:00:00</span>&nbsp;UTC</div>
+    <button class="burger" id="burger">MENU</button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-m" id="closeMenu">CLOSE ✕</button>
+  <a href="#about">PHENOMENON</a>
+  <a href="#how">PROTOCOL</a>
+  <a href="#who">PERSONS</a>
+  <a href="#stats">DATA</a>
+  <a href="#witnesses">WITNESSES</a>
+  <a href="#faq">INTERROGATION</a>
+  <a href="#believe">JOIN THE TRUTH</a>
+</div>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <div class="coords">
+    LAT 47.6°N&nbsp;&nbsp;LON 122.3°W<br>
+    SIGNAL: ACTIVE&nbsp;&nbsp;ENC: AES-256<br>
+    FILE OPENED: 09.10.1993
+  </div>
+  <div class="hero-grid">
+    <div>
+      <div class="file-head reveal">
+        <span>CASE FILE <b>X-091093</b></span>
+        <span>DIVISION: <b>CRYPTO PHENOMENA</b></span>
+        <span>STATUS: <b>UNRESOLVED</b></span>
+      </div>
+      <h1 class="hero-title reveal">
+        <span class="glitch" data-text="INFLUNETAI">INFLUNETAI</span>
+      </h1>
+      <div class="hero-tagline reveal">
+        <span id="typewriter"></span><span class="tw-cursor"></span>
+      </div>
+      <p class="hero-desc reveal">
+        An autonomous network of synthetic humans — AI-driven influencers — promoting crypto projects
+        across all social channels. Scalable. Automated. Community-governed by DAO.
+        Officially: does not exist.
+      </p>
+      <div class="hero-cta reveal">
+        <a class="btn" href="#believe">Join the DAO <span class="arr">→</span></a>
+        <a class="btn" href="#believe">Launch an AI Campaign <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="hero-side reveal">
+      <div class="hero-stamps">
+        <span class="stamp s2">Classified</span>
+        <span class="stamp s3">Trust no one</span>
+      </div>
+      <div class="ufo-wrap">
+        <svg viewBox="0 0 300 400" fill="none" stroke="#dcdcdc" stroke-width="1.2">
+          <g class="starfield" stroke="none">
+            <text x="20" y="40">+</text>
+            <text x="250" y="70">+</text>
+            <text x="60" y="120">+</text>
+            <text x="270" y="180">+</text>
+            <text x="30" y="240">+</text>
+            <text x="230" y="300">+</text>
+            <text x="90" y="360">+</text>
+          </g>
+          <circle cx="150" cy="120" r="86" stroke-dasharray="3 7" opacity=".4"/>
+          <g class="ufo">
+            <ellipse cx="150" cy="112" rx="62" ry="16"/>
+            <path d="M118 106 Q150 62 182 106"/>
+            <circle cx="150" cy="88" r="4"/>
+            <circle cx="104" cy="114" r="3"/>
+            <circle cx="196" cy="114" r="3"/>
+            <circle cx="150" cy="128" r="3"/>
+            <path d="M128 126 L96 210 M172 126 L204 210 M150 130 L150 236" stroke-dasharray="4 6" opacity=".55" class="beam"/>
+            <ellipse cx="150" cy="248" rx="58" ry="12" opacity=".5"/>
+            <ellipse cx="150" cy="248" rx="30" ry="6" opacity=".7"/>
+          </g>
+          <text x="150" y="330" text-anchor="middle" stroke="none" fill="#8a8a8a" font-size="9" letter-spacing="3" font-family="Courier Prime, monospace">SUBJECT: UNIDENTIFIED MARKETING PHENOMENON</text>
+          <text x="150" y="348" text-anchor="middle" stroke="none" fill="#5c5c5c" font-size="8" letter-spacing="2" font-family="Courier Prime, monospace">DO NOT APPROACH. DO NOT ENGAGE. SUBSCRIBE.</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll to declassify</div>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>The truth is out there <i>//</i></span>
+    <span>Trust no one <i>//</i></span>
+    <span>Deny everything <i>//</i></span>
+    <span>I want to believe <i>//</i></span>
+    <span>The AI is posting <i>//</i></span>
+    <span>Resistance is futile, engagement is mandatory <i>//</i></span>
+  </div>
+</div>
+
+<!-- ================= ABOUT / PHENOMENON ================= -->
+<section id="about" class="paper">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <div class="doc-meta reveal">
+      <span>DOC. REF: FBI-INFLU-0042</span>
+      <span>CLEARANCE: PUBLIC (PARTIALLY)</span>
+      <span>PAGES: 01 / 47 REDACTED</span>
+    </div>
+    <span class="stamp about-stamp">Declassified</span>
+    <div class="doc-grid">
+      <div class="doc-text reveal">
+        <span class="eyebrow">File 01 — The Phenomenon</span>
+        <h2 class="sec-title">What is InflunetAI?</h2>
+        <p style="margin-top:20px">Forget expensive marketing agencies. Forget unreliable human influencers.</p>
+        <p>InflunetAI is an <span class="redacted">autonomous swarm</span> of virtual influencers operating across TikTok, Twitter/X and YouTube Shorts — promoting crypto projects automatically, organically, and at unnatural scale.</p>
+        <p>Witnesses report <span class="redacted">thousands of accounts</span> acting in perfect coordination, guided by a community-powered DAO that votes on which projects enter the viral stream.</p>
+        <ul class="belief-list">
+          <li>Viral marketing without paid ads</li>
+          <li>AI-created influencers for every niche imaginable</li>
+          <li>Fully automated content generation — Reels, Shorts, TikToks, Tweets</li>
+          <li>Tokenized rewards for DAO participation</li>
+        </ul>
+        <div style="margin-top:34px">
+          <a class="btn" href="#believe">Join the AI Marketing Revolution <span class="arr">→</span></a>
+        </div>
+      </div>
+      <div class="crop-circle reveal">
+        <svg viewBox="0 0 400 400" fill="none" stroke="#141414" stroke-width="1">
+          <g class="cc-spin">
+            <circle cx="200" cy="200" r="180" stroke-dasharray="2 6"/>
+            <circle cx="200" cy="200" r="140"/>
+            <circle cx="200" cy="200" r="96" stroke-dasharray="10 6"/>
+            <circle cx="200" cy="200" r="52"/>
+            <g stroke-width=".8">
+              <line x1="200" y1="20" x2="200" y2="76"/><line x1="200" y1="324" x2="200" y2="380"/>
+              <line x1="20" y1="200" x2="76" y2="200"/><line x1="324" y1="200" x2="380" y2="200"/>
+              <line x1="81" y1="81" x2="121" y2="121"/><line x1="279" y1="279" x2="319" y2="319"/>
+              <line x1="319" y1="81" x2="279" y2="121"/><line x1="121" y1="279" x2="81" y2="319"/>
+            </g>
+            <circle cx="200" cy="60" r="7"/><circle cx="200" cy="340" r="7"/>
+            <circle cx="60" cy="200" r="7"/><circle cx="340" cy="200" r="7"/>
+          </g>
+          <text x="200" y="205" text-anchor="middle" stroke="none" fill="#141414" font-family="Special Elite, monospace" font-size="13" letter-spacing="2">DAO</text>
+        </svg>
+        <div class="fig-cap"><span>Fig. 1.1 — Crop formation, decoded</span><span>SCALE 1:∞</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <span class="eyebrow reveal">File 02 — Evidence Log</span>
+    <h2 class="sec-title reveal">How it works</h2>
+    <p class="sec-sub reveal">Four-stage protocol reconstructed from recovered fragments. Chain of custody verified by the DAO.</p>
+    <div class="evidence-board">
+      <div class="ev-line"></div>
+      <div class="steps">
+        <div class="step reveal">
+          <span class="pin"></span>
+          <div class="tag"><span>EVIDENCE A</span><span>T+00 MIN</span></div>
+          <div class="num">01</div>
+          <div class="photo">
+            <svg viewBox="0 0 120 74" fill="none" stroke="#bbb" stroke-width="1"><path d="M10 60 L35 35 L55 52 L80 22 L110 48"/><circle cx="80" cy="22" r="4"/></svg>
+          </div>
+          <h3>AI scans trends</h3>
+          <p>Monitors Twitter, Discord and crypto forums 24/7 to identify hot trends and viral opportunities before humans notice them.</p>
+        </div>
+        <div class="step reveal">
+          <span class="pin"></span>
+          <div class="tag"><span>EVIDENCE B</span><span>T+04 MIN</span></div>
+          <div class="num">02</div>
+          <div class="photo">
+            <svg viewBox="0 0 120 74" fill="none" stroke="#bbb" stroke-width="1"><circle cx="60" cy="26" r="12"/><path d="M36 62 Q60 42 84 62"/><line x1="60" y1="8" x2="60" y2="2"/><line x1="82" y1="14" x2="87" y2="9"/><line x1="38" y1="14" x2="33" y2="9"/></svg>
+          </div>
+          <h3>AI generates influencers</h3>
+          <p>Creates custom digital personas — analysts, meme pages, gamers, moms, pets — tailored precisely to each project's audience.</p>
+        </div>
+        <div class="step reveal">
+          <span class="pin"></span>
+          <div class="tag"><span>EVIDENCE C</span><span>T+11 MIN</span></div>
+          <div class="num">03</div>
+          <div class="photo">
+            <svg viewBox="0 0 120 74" fill="none" stroke="#bbb" stroke-width="1"><rect x="30" y="14" width="60" height="40" rx="4"/><path d="M50 26 L74 34 L50 42 Z"/><line x1="40" y1="62" x2="80" y2="62"/></svg>
+          </div>
+          <h3>Automated content creation</h3>
+          <p>Writes scripts, animates characters and publishes to TikTok, YouTube Shorts and Twitter. No sleep required. Ever.</p>
+        </div>
+        <div class="step reveal">
+          <span class="pin"></span>
+          <div class="tag"><span>EVIDENCE D</span><span>T+∞</span></div>
+          <div class="num">04</div>
+          <div class="photo">
+            <svg viewBox="0 0 120 74" fill="none" stroke="#bbb" stroke-width="1"><circle cx="42" cy="37" r="16"/><circle cx="78" cy="37" r="16" stroke-dasharray="3 4"/><path d="M58 37 L62 37"/></svg>
+          </div>
+          <h3>Community-driven marketing</h3>
+          <p>DAO members vote on which projects get promoted — and earn token rewards for shaping the future of attention.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHO NEEDS ================= -->
+<section id="who" class="paper">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <div class="doc-meta reveal">
+      <span>DOC. REF: FBI-INFLU-0077</span>
+      <span>SECTION: PERSONS OF INTEREST</span>
+      <span>APB ISSUED: ALL CHANNELS</span>
+    </div>
+    <span class="eyebrow reveal">File 03 — Suspect Profiles</span>
+    <h2 class="sec-title reveal">Who needs this?</h2>
+    <p class="sec-sub reveal">If you recognize yourself in any of the following profiles — do not resist. It's free to join.</p>
+    <div class="dossiers">
+      <div class="dossier reveal">
+        <span class="tape"></span>
+        <div class="d-num">PROFILE 01</div>
+        <div class="mugshot">
+          <svg viewBox="0 0 60 74" fill="none" stroke="#141414" stroke-width="1.4"><rect x="14" y="10" width="32" height="32" rx="4"/><line x1="22" y1="24" x2="26" y2="24"/><line x1="34" y1="24" x2="38" y2="24"/><path d="M24 34 Q30 38 36 34"/><path d="M8 66 Q30 48 52 66"/></svg>
+          <span class="qm">?</span>
+        </div>
+        <h3>Crypto Projects</h3>
+        <div class="alias">AKA "The Founders"</div>
+        <p>Launch viral campaigns at a fraction of traditional marketing cost. Last seen trending worldwide within days of contact.</p>
+        <div class="status"><span>RISK LEVEL</span><b>VIRAL</b></div>
+      </div>
+      <div class="dossier reveal">
+        <span class="tape"></span>
+        <div class="d-num">PROFILE 02</div>
+        <div class="mugshot">
+          <svg viewBox="0 0 60 74" fill="none" stroke="#141414" stroke-width="1.4"><path d="M12 50 L24 30 L34 40 L48 16"/><path d="M40 16 L48 16 L48 24"/><rect x="8" y="56" width="44" height="8"/></svg>
+          <span class="qm">?</span>
+        </div>
+        <h3>Investors & Traders</h3>
+        <div class="alias">AKA "The Bagholders"</div>
+        <p>Stay ahead of crypto trends through AI influencer signals. Known to make informed decisions before the market wakes up.</p>
+        <div class="status"><span>RISK LEVEL</span><b>10X</b></div>
+      </div>
+      <div class="dossier reveal">
+        <span class="tape"></span>
+        <div class="d-num">PROFILE 03</div>
+        <div class="mugshot">
+          <svg viewBox="0 0 60 74" fill="none" stroke="#141414" stroke-width="1.4"><circle cx="30" cy="30" r="16"/><circle cx="24" cy="28" r="2"/><circle cx="36" cy="28" r="2"/><path d="M24 36 Q30 41 36 36"/><path d="M14 62 Q30 52 46 62"/></svg>
+          <span class="qm">?</span>
+        </div>
+        <h3>Community</h3>
+        <div class="alias">AKA "The Believers"</div>
+        <p>Vote on projects inside the DAO and earn tokens for participation. Wanted for questioning — rewards offered, in tokens.</p>
+        <div class="status"><span>RISK LEVEL</span><b>REWARDED</b></div>
+      </div>
+    </div>
+    <div style="margin-top:44px" class="reveal">
+      <a class="btn" href="#believe">Start Now <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY US ================= -->
+<section id="why">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <span class="eyebrow reveal">File 04 — Field Report</span>
+    <h2 class="sec-title reveal">Why InflunetAI?</h2>
+    <p class="sec-sub reveal">Capabilities confirmed by multiple field agents. Your voice. Your content. Everywhere.</p>
+    <div class="report-grid">
+      <div class="report-item reveal">
+        <span class="chk"></span>
+        <div><h3>Fast & Scalable</h3><p>Campaigns launch instantly and scale to thousands of influencers simultaneously. Speed no human team can match.</p></div>
+      </div>
+      <div class="report-item reveal">
+        <span class="chk"></span>
+        <div><h3>Laser-Targeted</h3><p>Influencers are built for each niche and each demographic. Right message, right audience, right timeline.</p></div>
+      </div>
+      <div class="report-item reveal">
+        <span class="chk"></span>
+        <div><h3>Fully Automated</h3><p>AI handles content creation and distribution end-to-end. You review results. That's it. That's the job.</p></div>
+      </div>
+      <div class="report-item reveal">
+        <span class="chk"></span>
+        <div><h3>DAO-Powered</h3><p>Community-driven decision-making and tokenized rewards. The swarm governs itself. The truth promotes itself.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section id="stats">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <span class="eyebrow reveal">File 05 — Surveillance Data</span>
+    <h2 class="sec-title reveal">Real-time impact</h2>
+    <p class="sec-sub reveal">Live telemetry intercepted from the InflunetAI network. Numbers update before your eyes adjust.</p>
+    <div class="monitor reveal">
+      <div class="monitor-bar">
+        <span>SURVEILLANCE FEED — CHANNEL 09</span>
+        <span class="live"><i></i>LIVE</span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <span class="idx">CAM-01</span>
+          <div class="val"><span class="counter" data-target="2300">0</span>+</div>
+          <div class="lbl">AI Influencers Created</div>
+        </div>
+        <div class="stat-cell">
+          <span class="idx">CAM-02</span>
+          <div class="val"><span class="counter" data-target="150">0</span>K+</div>
+          <div class="lbl">Average Reach Per Influencer</div>
+        </div>
+        <div class="stat-cell">
+          <span class="idx">CAM-03</span>
+          <div class="val"><span class="counter" data-target="50">0</span>+</div>
+          <div class="lbl">Active Campaigns Running</div>
+        </div>
+        <div class="stat-cell">
+          <span class="idx">CAM-04</span>
+          <div class="val">$<span class="counter" data-target="100">0</span>K</div>
+          <div class="lbl">DAO Member Rewards Distributed</div>
+        </div>
+      </div>
+      <div class="stat-wave">
+        <span>SIGNAL</span>
+        <svg class="wave" viewBox="0 0 600 34" preserveAspectRatio="none" fill="none" stroke="#8a8a8a" stroke-width="1">
+          <path d="M0 17 L40 17 L50 4 L60 30 L70 10 L80 24 L90 17 L160 17 L170 6 L180 28 L190 17 L280 17 L290 2 L300 32 L310 12 L320 22 L330 17 L430 17 L440 8 L450 26 L460 17 L600 17"/>
+        </svg>
+        <span>98.7%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WITNESSES ================= -->
+<section id="witnesses" class="paper">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <div class="doc-meta reveal">
+      <span>DOC. REF: FBI-INFLU-0101</span>
+      <span>SECTION: WITNESS STATEMENTS</span>
+      <span>RECORDED UNDER TRUTH SERUM (ALLEGEDLY)</span>
+    </div>
+    <span class="eyebrow reveal">File 06 — Testimonials</span>
+    <h2 class="sec-title reveal">Witness statements</h2>
+    <p class="sec-sub reveal">Identities partially redacted for their protection. Statements unedited. Believability: 99.7%</p>
+    <div class="transcripts">
+      <div class="transcript reveal">
+        <div class="t-head"><span>STATEMENT №001</span><span>AUDIO ✓ VIDEO ✓</span></div>
+        <blockquote>Influnetai took our project from zero to trending in just 10 days. AI influencers boosted our token awareness like never before!</blockquote>
+        <div class="who"><b>— CEO, Crypto Startup</b><span>[VOICE MATCH: 94%]</span></div>
+      </div>
+      <div class="transcript reveal">
+        <div class="t-head"><span>STATEMENT №002</span><span>AUDIO ✓ VIDEO ✗</span></div>
+        <blockquote>I made 10x on my portfolio by following Influnetai's AI influencer recommendations!</blockquote>
+        <div class="who"><b>— Crypto Trader</b><span>[WHEREABOUTS UNKNOWN]</span></div>
+      </div>
+      <div class="transcript reveal">
+        <div class="t-head"><span>STATEMENT №003</span><span>AUDIO ✓ VIDEO ✓</span></div>
+        <blockquote>The best automated marketing solution I've ever used. 100x ROI!</blockquote>
+        <div class="who"><b>— Web3 Founder</b><span>[LIE DETECTOR: PASSED]</span></div>
+      </div>
+      <div class="transcript reveal">
+        <div class="t-head"><span>STATEMENT №004</span><span>AUDIO ✓ VIDEO ✓</span></div>
+        <blockquote>Didn't believe in AI marketing until our community tripled in a week. Influnetai proved it's not hype — it's real traction.</blockquote>
+        <div class="who"><b>— NFT Project Lead</b><span>[WITNESS PROTECTION?]</span></div>
+      </div>
+      <div class="transcript reveal">
+        <div class="t-head"><span>STATEMENT №005</span><span>AUDIO ✓ VIDEO ✗</span></div>
+        <blockquote>Influnetai's AI influencers outperformed my SMM team in just two days. The engagement was faster, cheaper, and actually targeted.</blockquote>
+        <div class="who"><b>— Web3 Marketer</b><span>[CURRENTLY RETRAINED AS PROMPT ENGINEER]</span></div>
+      </div>
+      <div class="transcript reveal">
+        <div class="t-head"><span>STATEMENT №006</span><span>AUDIO ✗ VIDEO ✗</span></div>
+        <blockquote>We have no evidence that InflunetAI exists. We also have no evidence that it doesn't. Recommend continued observation. And budget increase.</blockquote>
+        <div class="who"><b>— Anonymous, Federal Bureau of Influence</b><span>[FILE SEALED]</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <span class="eyebrow reveal">File 07 — Interrogation Room</span>
+    <h2 class="sec-title reveal">Common questions</h2>
+    <p class="sec-sub reveal">Answers extracted during routine questioning. No agents were harmed.</p>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q"><span><span class="q-idx">Q.01</span>How are AI influencers generated?</span><span class="plus"></span></button>
+        <div class="faq-a"><p><span class="a-prefix">A:</span> Our AI scans trends, creates influencer personas, and publishes content in minutes. The full cycle — from trend detection to viral post — happens faster than you can say "trust no one".</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q"><span><span class="q-idx">Q.02</span>How do I earn by joining the DAO?</span><span class="plus"></span></button>
+        <div class="faq-a"><p><span class="a-prefix">A:</span> Members vote on which projects get promoted and receive tokenized rewards for participation. Shape the future of attention — get paid in tokens, not exposure.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q"><span><span class="q-idx">Q.03</span>Can I create a custom AI influencer?</span><span class="plus"></span></button>
+        <div class="faq-a"><p><span class="a-prefix">A:</span> Yes. The platform lets you tailor AI influencers to your brand's voice — analysts, meme lords, gamers, pets. If you can imagine the persona, the network can deploy it.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q"><span><span class="q-idx">Q.04</span>Is any of this officially confirmed?</span><span class="plus"></span></button>
+        <div class="faq-a"><p><span class="a-prefix">A:</span> <span class="redacted" style="background:#e8e8e8;color:#e8e8e8">Absolutely yes</span>. Next question.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BELIEVE / CTA ================= -->
+<section id="believe" class="paper">
+  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  <div class="wrap">
+    <div class="doc-meta reveal">
+      <span>DOC. REF: FBI-INFLU-FINAL</span>
+      <span>FORM: VOLUNTARY INITIATION</span>
+      <span>FEE: NONE. EVER.</span>
+    </div>
+    <div class="believe-grid">
+      <div class="poster reveal">
+        <span class="poster-pin"></span>
+        <svg class="p-ufo" viewBox="0 0 120 60" fill="none" stroke="#151515" stroke-width="1.4">
+          <ellipse cx="60" cy="38" rx="46" ry="11"/>
+          <path d="M38 33 Q60 8 82 33"/>
+          <circle cx="60" cy="22" r="2.6"/>
+          <circle cx="26" cy="39" r="2"/><circle cx="94" cy="39" r="2"/>
+        </svg>
+        <h3>I Want<br>To Believe</h3>
+        <div class="p-foot">InflunetAI Case Files — Est. 1993</div>
+      </div>
+      <div class="cta-box reveal">
+        <span class="eyebrow">Final Transmission</span>
+        <h2 class="sec-title">Will you lead the trend — or investigate it from the sidelines?</h2>
+        <p>AI is taking over crypto marketing. Join the DAO to vote on projects and earn tokens, or launch your own AI influencer campaign. Either way — the truth gets posted.</p>
+        <div class="form-card" id="formCard">
+          <div class="fc-head"><span id="formMode">FORM 302-D — JOIN THE DAO</span><span>FREE FOREVER</span></div>
+          <form id="mainForm">
+            <div class="field">
+              <label for="fname">Codename / Full Name</label>
+              <input id="fname" type="text" placeholder="Agent Mulder" required>
+            </div>
+            <div class="field">
+              <label for="femail">Secure Channel / Email</label>
+              <input id="femail" type="email" placeholder="truth@out.there" required>
+            </div>
+            <div class="form-row">
+              <button class="btn" type="submit">Transmit <span class="arr">→</span></button>
+              <span class="form-note">Your data is protected. Probably.</span>
+            </div>
+          </form>
+          <div class="sent-msg">
+            <div class="big">Transmission received</div>
+            <p>Welcome to the truth. An agent will contact you through your secure channel.<br>Trust no one. Except us.</p>
+          </div>
+        </div>
+        <div style="margin-top:26px;display:flex;gap:14px;flex-wrap:wrap">
+          <button class="btn mode-btn" data-mode="dao" style="font-size:11px;padding:12px 18px">Join the DAO</button>
+          <button class="btn mode-btn" data-mode="campaign" style="font-size:11px;padding:12px 18px">Launch AI Campaign</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <b>INFLUNETAI</b>
+      <p>An autonomous network of AI influencers governed by DAO. This site is a work of fiction. The phenomenon is not.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Case Files</h4>
+      <a href="#about">The Phenomenon</a>
+      <a href="#how">Protocol</a>
+      <a href="#who">Persons of Interest</a>
+      <a href="#stats">Surveillance Data</a>
+    </div>
+    <div class="foot-col">
+      <h4>Bureau</h4>
+      <a href="#witnesses">Witness Statements</a>
+      <a href="#faq">Interrogation</a>
+      <a href="#believe">Join the Truth</a>
+      <a href="#">Privacy Policy [REDACTED]</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2025 InflunetAI — All rights reserved. All wrongs observed.</span>
+    <span>FILE X-091093 — STATUS: STILL UNRESOLVED</span>
+    <span>MADE SOMEWHERE IN THE TWILIGHT ZONE</span>
+  </div>
+</footer>
+
+<div class="declassify">CLEARANCE LEVEL: PUBLIC // DO NOT DISTRIBUTE</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+
+  /* ticker duplicate */
+  const tt=$('#tickerTrack');
+  tt.innerHTML+=tt.innerHTML;
+
+  /* boot sequence */
+  const bootEl=$('#boot'), bootLines=$('#bootLines');
+  const lines=[
+    "> ACCESSING FEDERAL BUREAU OF INFLUENCE DATABASE...",
+    "> CLEARANCE VERIFICATION ......... OK",
+    "> DECRYPTING FILE X-091093 ...... OK",
+    "> SUBJECT: INFLUNETAI",
+    "> WARNING: THE TRUTH IS OUT THERE"
+  ];
+  let li=0, ci=0, out="";
+  function typeBoot(){
+    if(li>=lines.length){
+      setTimeout(()=>{bootEl.classList.add('done');startHero();},500);
+      return;
+    }
+    out+=lines[li][ci]||"";
+    bootLines.innerHTML=out+"<span class='cursor'></span>";
+    if(ci<lines[li].length){ci++;setTimeout(typeBoot,14);}
+    else{out+="\n";li++;ci=0;setTimeout(typeBoot,220);}
+  }
+  typeBoot();
+
+  /* typewriter hero tagline */
+  const twText="THE TRUTH IS OUT THERE. AND IT'S ALREADY POSTING.";
+  function startHero(){
+    const tw=$('#typewriter');let i=0;
+    (function t(){if(i<=twText.length){tw.textContent=twText.slice(0,i);i++;setTimeout(t,42);}})();
+  }
+
+  /* clock */
+  setInterval(()=>{
+    const d=new Date();
+    $('#clock').textContent=d.toUTCString().slice(17,25);
+  },1000);
+
+  /* crosshair */
+  const ch=$('#crosshair');
+  document.addEventListener('mousemove',e=>{
+    ch.style.left=e.clientX+'px';ch.style.top=e.clientY+'px';
+  });
+
+  /* reveal on scroll */
+  const io=new IntersectionObserver(es=>{
+    es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('visible');io.unobserve(en.target);}});
+  },{threshold:.12});
+  $$('.reveal').forEach(el=>io.observe(el));
+
+  /* counters */
+  const cio=new IntersectionObserver(es=>{
+    es.forEach(en=>{
+      if(!en.isIntersecting)return;
+      const el=en.target,target=+el.dataset.target,dur=1600,t0=performance.now();
+      (function step(t){
+        const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);
+        el.textContent=Math.round(target*e).toLocaleString('en-US');
+        if(p<1)requestAnimationFrame(step);
+      })(t0);
+      cio.unobserve(el);
+    });
+  },{threshold:.5});
+  $$('.counter').forEach(el=>cio.observe(el));
+
+  /* faq accordion */
+  $$('.faq-item').forEach(item=>{
+    item.querySelector('.faq-q').addEventListener('click',()=>{
+      const open=item.classList.contains('open');
+      $$('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null;});
+      if(!open){
+        item.classList.add('open');
+        const a=item.querySelector('.faq-a');
+        a.style.maxHeight=a.scrollHeight+'px';
+      }
+    });
+  });
+
+  /* form mode switch */
+  const formMode=$('#formMode');
+  $$('.mode-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      formMode.textContent=b.dataset.mode==='dao'
+        ?"FORM 302-D — JOIN THE DAO"
+        :"FORM 302-C — LAUNCH AI CAMPAIGN";
+      $('#formCard').classList.remove('sent');
+    });
+  });
+
+  /* form submit */
+  $('#mainForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    $('#formCard').classList.add('sent');
+    document.body.classList.add('flash');
+    setTimeout(()=>document.body.classList.remove('flash'),200);
+  });
+
+  /* mobile menu */
+  const mm=$('#mobileMenu');
+  $('#burger').addEventListener('click',()=>mm.classList.add('open'));
+  $('#closeMenu').addEventListener('click',()=>mm.classList.remove('open'));
+  mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('open')));
+
+  /* random crt flash */
+  setInterval(()=>{
+    document.body.classList.add('flash');
+    setTimeout(()=>document.body.classList.remove('flash'),140);
+  },9000);
+})();
+</script>
+</body>
+</html>
