@@ -91,6 +91,12 @@ main.hardflash{filter:invert(1)}
 #boot.done{opacity:0;visibility:hidden}
 #boot .boot-lines{white-space:pre-wrap;line-height:1.9;text-transform:uppercase}
 #boot .cursor{display:inline-block;width:.6em;height:1.1em;background:#e8e8e8;vertical-align:-.15em;animation:blink 1s steps(1) infinite}
+#bootSound{
+  margin-top:26px;background:none;border:1px solid #888;color:#e8e8e8;
+  font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:3px;
+  padding:13px 22px;text-transform:uppercase;transition:.2s;
+}
+#bootSound:hover{background:#e8e8e8;color:#000}
 @keyframes blink{50%{opacity:0}}
 
 /* ============ HEADER ============ */
@@ -119,6 +125,13 @@ nav.main-nav a::before{content:"[ "}
 nav.main-nav a::after{content:" ]"}
 @keyframes navJit{25%{transform:translate(-2px,1px)}75%{transform:translate(2px,-1px)}}
 .head-right{display:flex;align-items:center;gap:18px}
+.snd-btn{
+  background:none;border:1px solid var(--line);color:var(--dim);
+  font-size:10px;letter-spacing:2px;padding:7px 12px;text-transform:uppercase;
+  transition:color .2s,border-color .2s;
+}
+.snd-btn:hover{color:var(--ink);border-color:#555}
+.snd-btn.on{color:var(--ink);border-color:var(--ink)}
 .rec{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:1px;color:var(--dim)}
 .rec .dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:blink 1.2s steps(1) infinite}
 .burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);padding:8px 10px;font-size:12px;letter-spacing:2px}
@@ -539,7 +552,10 @@ footer{border-top:1px solid var(--line);background:#050505}
 <div class="tracking" id="tracking"></div>
 <div class="crosshair" id="crosshair"></div>
 
-<div id="boot"><div class="boot-lines" id="bootLines"></div></div>
+<div id="boot">
+  <div class="boot-lines" id="bootLines"></div>
+  <button id="bootSound">▶ Open file with theme music</button>
+</div>
 
 <header>
   <div class="brand">
@@ -558,6 +574,7 @@ footer{border-top:1px solid var(--line);background:#050505}
     <a href="#files">Files</a>
   </nav>
   <div class="head-right">
+    <button class="snd-btn" id="sndToggle">Sound: Off</button>
     <div class="rec"><span class="dot"></span><span id="clock">00:00:00</span>&nbsp;UTC</div>
     <button class="burger" id="burger">MENU</button>
   </div>
@@ -1081,7 +1098,9 @@ footer{border-top:1px solid var(--line);background:#050505}
   typeBoot();
 
   const twText="THE TRUTH IS OUT THERE.";
+  let heroStarted=false;
   function startHero(){
+    if(heroStarted)return;heroStarted=true;
     const tw=$('#typewriter');let i=0;
     (function t(){if(i<=twText.length){tw.textContent=twText.slice(0,i);i++;setTimeout(t,46);}})();
   }
@@ -1191,6 +1210,95 @@ footer{border-top:1px solid var(--line);background:#050505}
   $('#burger').addEventListener('click',()=>mm.classList.add('open'));
   $('#closeMenu').addEventListener('click',()=>mm.classList.remove('open'));
   mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('open')));
+
+  /* ===== THEME MUSIC (synth homage, Web Audio) ===== */
+  let actx=null,master=null,soundOn=false,schedTimer=null,nextLoopAt=0;
+  const BPM=64,B=60/BPM;
+  const PADS=[110,87.31,73.42,82.41,110,87.31,82.41,110];
+  const MEL=[
+    [440,440,523.25,440],
+    [440,392,440,523.25],
+    [587.33,523.25,587.33,698.46],
+    [493.88,415.30,493.88,659.26],
+    [440,659.26,523.25,440],
+    [698.46,659.26,523.25,440],
+    [493.88,415.30,493.88,659.26],
+    [440,null,null,null]
+  ];
+  function ensureCtx(){
+    if(actx)return;
+    actx=new (window.AudioContext||window.webkitAudioContext)();
+    master=actx.createGain();master.gain.value=.15;
+    const comp=actx.createDynamicsCompressor();
+    const del=actx.createDelay(2);del.delayTime.value=B;
+    const fb=actx.createGain();fb.gain.value=.34;
+    const wet=actx.createGain();wet.gain.value=.28;
+    master.connect(comp);
+    master.connect(del);del.connect(fb);fb.connect(del);
+    del.connect(wet);wet.connect(comp);
+    comp.connect(actx.destination);
+  }
+  function note(freq,t,dur,vol){
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.type='triangle';o.frequency.value=freq;
+    const lfo=actx.createOscillator(),lg=actx.createGain();
+    lfo.type='sine';lfo.frequency.value=7.5;lg.gain.value=vol*.45;
+    lfo.connect(lg);lg.connect(g.gain);
+    g.gain.setValueAtTime(vol*.3,t);
+    g.gain.linearRampToValueAtTime(vol,t+.04);
+    g.gain.setValueAtTime(vol,t+dur-.06);
+    g.gain.linearRampToValueAtTime(0,t+dur);
+    o.connect(g);g.connect(master);
+    o.start(t);o.stop(t+dur+.05);
+    lfo.start(t);lfo.stop(t+dur+.05);
+  }
+  function pad(freq,t,dur){
+    [-7,7].forEach(det=>{
+      const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();
+      o.type='sawtooth';o.frequency.value=freq;o.detune.value=det;
+      f.type='lowpass';f.frequency.value=520;
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(.045,t+1.4);
+      g.gain.setValueAtTime(.045,t+dur-1.1);
+      g.gain.linearRampToValueAtTime(0,t+dur);
+      o.connect(f);f.connect(g);g.connect(master);
+      o.start(t);o.stop(t+dur+.1);
+    });
+  }
+  function scheduleLoop(){
+    const t0=Math.max(actx.currentTime+.08,nextLoopAt);
+    for(let bar=0;bar<8;bar++){
+      const bt=t0+bar*2*B;
+      pad(PADS[bar],bt,2*B+.35);
+      MEL[bar].forEach((fq,i)=>{
+        if(!fq)return;
+        note(fq,bt+i*B/2,B*.44,.2);
+      });
+    }
+    nextLoopAt=t0+16*B;
+    schedTimer=setTimeout(scheduleLoop,(nextLoopAt-actx.currentTime-1)*1000);
+  }
+  function setSound(on){
+    ensureCtx();
+    soundOn=on;
+    const btn=$('#sndToggle');
+    btn.textContent='Sound: '+(on?'On':'Off');
+    btn.classList.toggle('on',on);
+    if(on){
+      actx.resume();
+      master.gain.setTargetAtTime(.15,actx.currentTime,.15);
+      if(!schedTimer){nextLoopAt=0;scheduleLoop();}
+    }else{
+      clearTimeout(schedTimer);schedTimer=null;
+      master.gain.setTargetAtTime(0,actx.currentTime,.12);
+    }
+  }
+  $('#sndToggle').addEventListener('click',()=>setSound(!soundOn));
+  $('#bootSound').addEventListener('click',()=>{
+    setSound(true);
+    bootEl.classList.add('done');
+    startHero();
+  });
 })();
 </script>
 </body>
